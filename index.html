@@ -6,12 +6,17 @@
     <title>Genshin Impact Resin Calculator</title>
   </head>
   <body>
-    <span>This calculates how many resin you have to spend before the resin overflows at the given time.</span><br />
-    <input type="time" id="begin_time" value=""> <span>Begin Time</span><br />
-    <input type="time" id="end_time" value="04:00"> <span>End Time</span><br />
-    <input type="number" id="curr_resin" value="0" min="0" max="160"> <span>Current Resin</span><br />
-    <input type="button" id="calc" value="Calculate"><br />
-    <span>Need to spend at least: </span> <span id="result">0</span> <span>Resins.</span>
+    <p>This calculates how many resin you have to spend before the resin overflows at the given time.</p>
+    <p>计算在给定的时间前至少需要使用多少树脂以避免树脂溢出。</p>
+    <p><input type="time" id="begin_time" value=""> <span>Begin Time 开始时间</span></p>
+    <p><input type="time" id="end_time" value="04:00"> <span>End Time 结束时间</span></p>
+    <p><input type="number" id="curr_resin" value="0" min="0" max="160"> <span>Current Resin 当前树脂</span></p>
+    <p><input type="button" id="calc" value="Calculate 计算"></p>
+    <span>Need to spend at least: </span>
+    <br />
+    <span>需要至少使用：</span>
+    <br />
+    <p><span id="result">0</span> Resins 树脂</p>
   </body>
   <script type="text/javascript">
     function addZero(i) {
