@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1' name='viewport'/>
+    <title>Genshin Impact Resin Calculator</title>
+  </head>
+  <body>
+    <span>This calculates how many resin you have to spend before the resin overflows at the giving time.</span><br />
+    <input type="time" id="begin_time" value=""> <span>Begin Time</span><br />
+    <input type="time" id="end_time" value="04:00"> <span>End Time</span><br />
+    <input type="number" id="curr_resin" value="0" min="0" max="160"> <span>Current Resin</span><br />
+    <input type="button" id="calc" value="Calculate"><br />
+    <span>Need to spend at least: </span> <span id="result">0</span> <span>Resins.</span>
+  </body>
+  <script type="text/javascript">
+    function addZero(i) {
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
+    }
+
+    function parseTime(timeString)
+    {
+      if (timeString == '') return null;
+      var d = new Date();
+      var time = timeString.match(/(\d+)(:(\d\d))?\s*(p?)/i);
+      d.setHours( parseInt(time[1],10) + ( ( parseInt(time[1],10) < 12 && time[4] ) ? 12 : 0) );
+      d.setMinutes( parseInt(time[3],10) || 0 );
+      d.setSeconds(0, 0);
+      return d;
+    }
+
+    const data = new Date()
+    const hr = addZero(data.getHours())
+    const min = addZero(data.getMinutes())
+    const timenow = hr + ":" + min
+    document.getElementById('begin_time').value = timenow
+
+    document.getElementById("calc").onclick = function() {
+      let begin_time = parseTime(document.getElementById('begin_time').value)
+      let end_time = parseTime(document.getElementById('end_time').value)
+      if (begin_time > end_time)
+      {
+        end_time.setDate(begin_time.getDate() + 1)
+      }
+      let time_diff = (end_time.getTime() - begin_time.getTime())/60000
+      const curr_resin = document.getElementById('curr_resin').value
+      let resin_to_spend = parseInt(curr_resin) + Math.floor(time_diff/8) - 160
+      document.getElementById('result').innerHTML = resin_to_spend
+    }
+  </script>
+</html>
