@@ -6,7 +6,7 @@
     <title>Format time</title>
   </head>
   <body>
-    <p>Input different date format (support yyyymmdd, yyyy-m-d, yyyy.m.d, yyyy/m/d, yyyy年m月d日), output as yyyymmdd. <br />Put one date each line.</p>
+    <p>Input different date format (support yyyymmdd, yyyy-m-d, yyyy.m.d, yyyy/m/d, yyyy年m月d日), output as yyyy-mm-dd. <br />So you can format them in excel.<br />Put one date each line.</p>
     <p>Input:</p>
     <textarea id="input" rows="8" cols="80"></textarea>
     <br />
@@ -20,10 +20,13 @@
       }
 
       function format_date(raw_date) {
+        let splited_date = []
         if (IsNumberFormat(raw_date)) {
-          return raw_date
+          splited_date[0] = raw_date.substring(0,4)
+          splited_date[1] = raw_date.substring(4,6)
+          splited_date[2] = raw_date.substring(6,8)
         } else {
-          let splited_date = []
+
           if (raw_date.includes("-"))
           {
             splited_date = raw_date.split("-")
@@ -46,8 +49,8 @@
             if (splited_date[i].length < 2)
               splited_date[i] = "0" + splited_date[i]
           }
-          return splited_date.join("")
         }
+        return splited_date.join("-")
       }
 
       document.getElementById("button").onclick = function()
