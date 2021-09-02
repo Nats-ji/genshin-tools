@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1' name='viewport'/>
+    <title>Format time</title>
+  </head>
+  <body>
+    <p>Input different date format (support yyyymmdd, yyyy-m-d, yyyy.m.d, yyyy年m月d日), output as yyyymmdd. <br />Put one date each line.</p>
+    <p>Input:</p>
+    <textarea id="input" rows="8" cols="80"></textarea>
+    <button type="button" id="button">Format</button>
+    <p>Output</p>
+    <textarea id="output" rows="8" cols="80"></textarea>
+    <script type="text/javascript">
+      function IsNumberFormat(raw_date)
+      {
+        return /^\d+$/.test(raw_date)
+      }
+
+      function format_date(raw_date) {
+        if (IsNumberFormat(raw_date)) {
+          return raw_date
+        } else {
+          let splited_date = []
+          if (raw_date.includes("-"))
+          {
+            splited_date = raw_date.split("-")
+          } else if (raw_date.includes(".")) {
+            splited_date = raw_date.split(".")
+          } else if (raw_date.includes("年") && raw_date.includes("月"))
+          {
+            let y, m, d
+            let s1 = raw_date.split("年")
+            y = s1[0]
+            let s2 = s1[1].split("月")
+            m = s2[0]
+            let s3 = s2[1].split("日")
+            d = s3[0]
+            splited_date = [y, m ,d]
+          }
+          for (var i = 1; i < splited_date.length; i++) {
+            if (splited_date[i].length < 2)
+              splited_date[i] = "0" + splited_date[i]
+          }
+          return splited_date.join("")
+        }
+      }
+
+      document.getElementById("button").onclick = function()
+      {
+        const input_raw = document.getElementById("input").value
+        const input_raw_array = input_raw.split("\n")
+        let output_array = []
+        for (var i = 0; i < input_raw_array.length; i++) {
+          output_array[i] = format_date(input_raw_array[i])
+        }
+        document.getElementById("output").value = output_array.join("\n")
+      }
+    </script>
+  </body>
+</html>
