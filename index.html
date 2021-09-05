@@ -6,7 +6,8 @@
     <title>Genshin Impact Resin Calculator</title>
   </head>
   <body>
-    <p>This calculator calculates how many resins you have to spend before the resins overflow at the given time.</p>
+    <a href="format.html">format</a>
+    <p>This calculates how many resin you have to spend before the resin overflows at the given time.</p>
     <p>计算在给定的时间前至少需要使用多少树脂以避免树脂溢出。</p>
     <p><input type="time" id="begin_time" value=""> <span>Begin Time 开始时间</span></p>
     <p><input type="time" id="end_time" value="04:00"> <span>End Time 结束时间</span></p>
@@ -39,28 +40,35 @@
       return d;
     }
 
+    function calc()
+    {
+        let curr_resin = parseInt(document.getElementById('curr_resin').value)
+        if (curr_resin > 160)
+        {
+          curr_resin = 160
+          document.getElementById('curr_resin').value = 160
+        }
+        let begin_time = parseTime(document.getElementById('begin_time').value)
+        let end_time = parseTime(document.getElementById('end_time').value)
+        if (begin_time > end_time)
+        {
+          end_time.setDate(begin_time.getDate() + 1)
+        }
+        let time_diff = (end_time.getTime() - begin_time.getTime())/60000
+        let resin_to_spend = curr_resin + Math.floor(time_diff/8) - 160
+        document.getElementById('result').innerHTML = resin_to_spend
+    }
+
     const data = new Date()
     const hr = addZero(data.getHours())
     const min = addZero(data.getMinutes())
     const timenow = hr + ":" + min
     document.getElementById('begin_time').value = timenow
 
-    document.getElementById("calc").onclick = function() {
-      let curr_resin = parseInt(document.getElementById('curr_resin').value)
-      if (curr_resin > 160)
-      {
-        curr_resin = 160
-        document.getElementById('curr_resin').value = 160
-      }
-      let begin_time = parseTime(document.getElementById('begin_time').value)
-      let end_time = parseTime(document.getElementById('end_time').value)
-      if (begin_time > end_time)
-      {
-        end_time.setDate(begin_time.getDate() + 1)
-      }
-      let time_diff = (end_time.getTime() - begin_time.getTime())/60000
-      let resin_to_spend = curr_resin + Math.floor(time_diff/8) - 160
-      document.getElementById('result').innerHTML = resin_to_spend
-    }
+    document.getElementById('calc').onclick = calc
+    document.getElementById('curr_resin').addEventListener("keydown", function (e) {
+      if (e.key == "Enter")
+        calc()
+    })
   </script>
 </html>
