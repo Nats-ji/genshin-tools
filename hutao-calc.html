@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1' name='viewport'/>
+    <title>Genshin Impact Hutao Calculator</title>
+  </head>
+  <body>
+    <a href="index.html">index</a>
+    <p>Calculate how goddly your hutao is.</p>
+    <p>计算你的胡桃练度。</p>
+    <select id ="weapon">
+      <option value="homa">Homa 护魔</option>
+      <option value="db">Dragon's Bane 匣里</option>
+      <option value="dm">Deathmatch 决斗</option>
+    </select> <span>Weapon 武器</span>
+    <p><input type="number" id="dmg" value="10000" min="0"> <span>Crit Vaped Charged DMG 重击蒸发暴击伤害</span></p>
+    <p><input type="number" id="crit_rate" value="5" min="5"> <span>Crit Rate 暴击率%</span></p>
+    <p><input type="number" id="crit_dmg" value="50" min="50"> <span>Crit Dmg 爆伤%</span></p>
+    <p><input type="button" id="calc" value="Calculate 计算"></p>
+    <p>Score 得分: <span id="score">0</span></p>
+    <p>Rating 评级: <span id="rating">N/A</span></p>
+    <br />
+    <img src="/img/hutao-calc.png" alt="hutao-calc" style="width: 100%; max-width: 600px;">
+    <p style= "font-size: 12px">夏川出品必属精品</p>
+  </body>
+  <script type="text/javascript">
+    function calc_score(dmg, cd, cr)
+    {
+      return Math.floor(dmg/(1+cd)*(1+cr*cd))
+    }
+
+    function rate(weapon, score)
+    {
+      if (weapon == "homa")
+      {
+        if (score >= 50000)
+          return "A 卧槽"
+        if (score >= 45000)
+          return "B 还凑合"
+        if (score >= 41000)
+          return "C 加油吧"
+        if (score >= 37500)
+          return "D 渣渣"
+
+        return "F 建议删号"
+      }
+      else
+      {
+        if (score >= 37000)
+          return "A 卧槽"
+        if (score >= 35000)
+          return "B 还凑合"
+        if (score >= 31000)
+          return "C 加油吧"
+        if (score >= 28500)
+          return "D 渣渣"
+
+        return "F 建议删号"
+      }
+    }
+
+    function calc()
+    {
+      let sel = document.getElementById("weapon")
+      let weapon = sel.options[sel.selectedIndex].value
+      const dmg = document.getElementById("dmg").value
+      const cd = (document.getElementById("crit_dmg").value)/100
+      const cr = (document.getElementById("crit_rate").value)/100
+      let score = calc_score(dmg, cd, cr)
+      let rating = rate(weapon, score)
+
+      document.getElementById("score").innerHTML = score
+      document.getElementById("rating").innerHTML = rating
+    }
+
+    document.getElementById('calc').onclick = calc
+    document.getElementById('crit_dmg').addEventListener("keydown", function (e) {
+      if (e.key == "Enter")
+        calc()
+    })
+
+  </script>
+</html>
