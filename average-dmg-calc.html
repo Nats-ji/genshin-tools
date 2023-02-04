@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1' name='viewport'/>
+    <title>Genshin Impact Average Damage Calculator</title>
+  </head>
+  <body>
+    <p>This calculates your character's average damage through crit rate, crit hit damage, and non-crit hit damage.</p>
+    <p><input type="number" id="crit_rate" value="0" min="0"> <span>Crit Rate (%)</span></p>
+    <p><input type="number" id="crit_hit" value="0" min="0"> <span>Crit Hit Damage</span></p>
+    <p><input type="number" id="noncrit_hit" value="0" min="0"> <span>Non-crit Hit Damage</span></p>
+    <p><input type="button" id="calc" value="Calculate"></p>
+    
+    <p><span>Your character's average damage is: </span><span id="result">0</span></p>
+  </body>
+  <script type="text/javascript">
+    function calcAvgDmg(critRate, critHit, noncritHit) {
+      critRate = critRate * 0.01
+      return critRate * critHit + (1-critRate) * noncritHit;
+    }
+
+    function parseTime(timeString)
+    {
+      if (timeString == '') return null;
+      var d = new Date();
+      var time = timeString.match(/(\d+)(:(\d\d))?\s*(p?)/i);
+      d.setHours( parseInt(time[1],10) + ( ( parseInt(time[1],10) < 12 && time[4] ) ? 12 : 0) );
+      d.setMinutes( parseInt(time[3],10) || 0 );
+      d.setSeconds(0, 0);
+      return d;
+    }
+
+    function calc()
+    {
+        let critRate = parseFloat(document.getElementById('crit_rate').value)
+        let critHit = parseFloat(document.getElementById('crit_hit').value)
+        let noncritHit = parseFloat(document.getElementById('noncrit_hit').value)
+
+        let result = calcAvgDmg(critRate, critHit, noncritHit);
+        document.getElementById('result').innerHTML = result
+    }
+
+    document.getElementById('calc').onclick = calc
+    document.getElementById('noncrit_hit').addEventListener("keydown", function (e) {
+      if (e.key == "Enter")
+        calc()
+    })
+  </script>
+</html>
